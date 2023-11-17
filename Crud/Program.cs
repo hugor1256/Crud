@@ -1,7 +1,15 @@
+using Crud.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var connectionString = builder.Configuration.GetConnectionString("CrudConnection");
+
+builder.Services.AddDbContext<CrudDbContext>(opts =>
+    opts.UseMySql(builder.Configuration.GetConnectionString("CrudConnection"), ServerVersion.AutoDetect(connectionString)));
 
 var app = builder.Build();
 
